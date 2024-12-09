@@ -12,14 +12,17 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader_Mainmenu = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        FXMLLoader fxmlLoader_WorkPlace = new FXMLLoader(HelloApplication.class.getResource("WorkPlace.fxml"));
+        Scene mainMenu = new Scene(fxmlLoader_Mainmenu.load(), Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
 
-        Scene MainMenu = new Scene(fxmlLoader_Mainmenu.load(),Region.USE_COMPUTED_SIZE,Region.USE_COMPUTED_SIZE);
-        //Тута определяется окно рабочее)
-        Scene WorkPlace =new Scene(fxmlLoader_WorkPlace.load(),Region.USE_COMPUTED_SIZE,Region.USE_COMPUTED_SIZE);
+       //Когда вы загружаете FXML файл с помощью FXMLLoader, он создает экземпляр контроллера, если он указан в FXML файле с помощью атрибута fx:controller.
+        // После загрузки вы можете получить доступ к этому экземпляру контроллера, вызвав метод getController().
+       MenuController controller = fxmlLoader_Mainmenu.getController();
+
+
+        controller.setStage(stage);
 
         stage.setTitle("Hello!");
-        stage.setScene(MainMenu);
+        stage.setScene(mainMenu);
         stage.show();
     }
 
