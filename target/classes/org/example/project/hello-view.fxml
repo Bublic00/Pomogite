@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox prefHeight="458.0" prefWidth="712.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.project.MenuController">
+<VBox prefHeight="458.0" prefWidth="712.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.project.MenuController"  >
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="464.0" prefWidth="712.0" style="-fx-background-color: #6495ED;" VBox.vgrow="ALWAYS">
       <children>
