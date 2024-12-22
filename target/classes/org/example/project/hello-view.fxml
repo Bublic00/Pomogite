@@ -11,7 +11,8 @@
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="464.0" prefWidth="712.0" style="-fx-background-color: #6495ED;" VBox.vgrow="ALWAYS">
       <children>
-        <Label alignment="CENTER" layoutX="187.0" layoutY="35.0" prefHeight="134.0" prefWidth="357.0" text="Vacuole" textAlignment="CENTER" textFill="AQUAMARINE" textOverrun="CLIP">
+        <Label alignment="CENTER" layoutX="187.0" layoutY="35.0" prefHeight="134.0" prefWidth="357.0" text="Vacuole" textAlignment="CENTER" textFill="#7e804b"
+               textOverrun="CLIP">
           <font>
             <Font name="Maiandra GD" size="88.0" />
           </font>

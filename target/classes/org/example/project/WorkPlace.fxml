@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" fx:controller="org.example.project.WorkPlaceController" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="498.0" prefWidth="929.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml">
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="498.0" prefWidth="929.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.project.WorkPlaceController">
     <children>
-        <VBox fx:id="LabelContainer" alignment="TOP_CENTER" layoutX="7.0" layoutY="59.0" prefHeight="326.0" prefWidth="136.0" spacing="10.0">
-            <children>
-                <Button fx:id="addbutton" mnemonicParsing="false" prefHeight="34.0" prefWidth="131.0" text="Создать задачу" />
-            </children>
+        <VBox fx:id="LabelContainer" alignment="TOP_CENTER" layoutX="7.0" layoutY="161.0" prefHeight="297.0" prefWidth="136.0" spacing="10.0">
+
+
         </VBox>
+        <Button fx:id="addbutton" mnemonicParsing="false" layoutX="10.0" layoutY="10.0" prefHeight="34.0" prefWidth="131.0" text="Создать задачу" />
+        <Button fx:id="savePlansButton" mnemonicParsing="false" layoutX="10.0" layoutY="50.0" prefHeight="34.0" prefWidth="131.0" text="Сохранить планы" /> <!-- Кнопка для сохранения планов -->
+        <DatePicker fx:id="datePicker" layoutX="10.0" layoutY="100.0" /> <!-- Добавляем DatePicker -->
+        <TextArea fx:id="plansTextArea" layoutX="715.0" layoutY="61.0" prefHeight="100.0" prefWidth="200.0" promptText="Введите планы на выбранный день..." /> <!-- Добавляем TextArea -->
     </children>
 </AnchorPane>

@@ -1,41 +1,69 @@
-package org.example.project; // Убедитесь, что это правильный пакет
+package org.example.project;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-import javafx.scene.control.Label;
 
-import java.util.Optional;
+import java.time.LocalDate;
+import java.util.*;
 
 public class WorkPlaceController {
     @FXML
     private Button addbutton;
+    @FXML
+    private Button savePlansButton;
+    @FXML
+    private DatePicker datePicker;
+    @FXML
+    private TextArea plansTextArea;
 
     @FXML
-    private VBox LabelContainer; // Убедитесь, что вы добавили этот контейнер в FXML
+    private VBox LabelContainer; // Контейнер для меток с планами
+
+    private Map<LocalDate, List<String>> plansMap = new HashMap<>();
 
     @FXML
     public void initialize() {
         addbutton.setOnAction(e -> showInputDialog());
+        savePlansButton.setOnAction(e -> savePlans());
+        datePicker.setOnAction(e -> displayPlansForSelectedDate());
     }
+
     @FXML
-    private void showInputDialog (){
-        TextInputDialog vvodKategorii=new TextInputDialog();
-        //Диалоговое окно для ввода стандарт
-        vvodKategorii.setTitle("Ввод категории задачи ");
-        vvodKategorii.setHeaderText("Введите назване категории задачи:");
+    private void showInputDialog() {
+        TextInputDialog vvodKategorii = new TextInputDialog();
+        vvodKategorii.setTitle("Ввод категории задачи");
+        vvodKategorii.setHeaderText("Введите название категории задачи:");
         vvodKategorii.setContentText("Вводите");
         Optional<String> result = vvodKategorii.showAndWait();
-        //Этот метод возвращает объект Optional<String>, который может содержать введенный текст,
-        // если пользователь нажал "OK", или быть пустым, если пользователь закрыл диалог без ввода текста.
         result.ifPresent(this::addLabel);
-        //Этот код использует метод ifPresent() объекта Optional. Если пользователь ввел текст и нажал "OK", result будет содержать значение (строку), и метод addLabel будет вызван с этим значением.
-        //Если пользователь закрыл диалог без ввода текста, result будет пустым, и метод addLabel не будет вызван.
     }
 
     private void addLabel(String text) {
         Label newLabel = new Label(text);
         LabelContainer.getChildren().add(newLabel);
+    }
+
+    private void savePlans() {
+        LocalDate selectedDate = datePicker.getValue();
+        String plans = plansTextArea.getText();
+        if (selectedDate != null && !plans.isEmpty()) {
+            plansMap.computeIfAbsent(selectedDate, k -> new ArrayList<>()).add(plans);
+            plansTextArea.clear();
+            displayPlansForSelectedDate(); // Обновляем отображение планов для выбранной даты
+        } else {
+            System.out.println("Выберите дату и введите планы");
+        }
+    }
+
+    private void displayPlansForSelectedDate() {
+        LocalDate selectedDate = datePicker.getValue();
+        LabelContainer.getChildren().clear(); // Очищаем только контейнер меток
+        if (selectedDate != null && plansMap.containsKey(selectedDate)) {
+            List<String> plans = plansMap.get(selectedDate);
+            for (String plan : plans) {
+                addLabel("Планы на " + selectedDate + ": " + plan);
+            }
+        }
     }
 }
