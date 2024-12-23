@@ -16,7 +16,8 @@ public class WorkPlaceController {
     private DatePicker datePicker;
     @FXML
     private TextArea plansTextArea;
-
+@FXML
+private VBox Plans_Container;
     @FXML
     private VBox LabelContainer; // Контейнер для меток с планами
 
@@ -65,5 +66,12 @@ public class WorkPlaceController {
                 addLabel("Планы на " + selectedDate + ": " + plan);
             }
         }
+    }
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
