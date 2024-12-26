@@ -51,7 +51,7 @@ private VBox Plans_Container;
         if (selectedDate != null && !plans.isEmpty()) {
             plansMap.computeIfAbsent(selectedDate, k -> new ArrayList<>()).add(plans);
             plansTextArea.clear();
-            displayPlansForSelectedDate(); // Обновляем отображение планов для выбранной даты
+            displayPlansForSelectedDate();
         } else {
             System.out.println("Выберите дату и введите планы");
         }
@@ -59,7 +59,7 @@ private VBox Plans_Container;
 
     private void displayPlansForSelectedDate() {
         LocalDate selectedDate = datePicker.getValue();
-        LabelContainer.getChildren().clear(); // Очищаем только контейнер меток
+        LabelContainer.getChildren().clear(); //очиста перед другой датой
         if (selectedDate != null && plansMap.containsKey(selectedDate)) {
             List<String> plans = plansMap.get(selectedDate);
             for (String plan : plans) {

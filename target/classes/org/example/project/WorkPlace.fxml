@@ -5,13 +5,13 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="498.0" prefWidth="929.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.project.WorkPlaceController">
     <children>
-        <VBox fx:id="LabelContainer" alignment="TOP_CENTER" layoutX="7.0" layoutY="161.0" prefHeight="297.0" prefWidth="136.0" spacing="10.0">
+        <VBox fx:id="LabelContainer" alignment="TOP_CENTER" layoutX="196.0" prefHeight="498.0" prefWidth="436.0" spacing="10.0">
 
 
         </VBox>
-        <Button fx:id="addbutton" mnemonicParsing="false" layoutX="10.0" layoutY="10.0" prefHeight="34.0" prefWidth="131.0" text="Создать задачу" />
-        <Button fx:id="savePlansButton" mnemonicParsing="false" layoutX="10.0" layoutY="50.0" prefHeight="34.0" prefWidth="131.0" text="Сохранить планы" /> <!-- Кнопка для сохранения планов -->
-        <DatePicker fx:id="datePicker" layoutX="10.0" layoutY="100.0" /> <!-- Добавляем DatePicker -->
-        <TextArea fx:id="plansTextArea" layoutX="715.0" layoutY="61.0" prefHeight="100.0" prefWidth="200.0" promptText="Введите планы на выбранный день..." /> <!-- Добавляем TextArea -->
+        <Button fx:id="addbutton" layoutX="10.0" layoutY="99.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="131.0" text="Создать задачу" />
+        <Button fx:id="savePlansButton" layoutX="10.0" layoutY="50.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="131.0" text="Сохранить планы" /> <!-- Кнопка для сохранения планов -->
+        <DatePicker fx:id="datePicker" layoutX="668.0" layoutY="31.0" />
+        <TextArea fx:id="plansTextArea" layoutX="668.0" layoutY="61.0" prefHeight="145.0" prefWidth="247.0" promptText="Введите планы на выбранный день..." /> <!-- Добавляем TextArea -->
     </children>
 </AnchorPane>

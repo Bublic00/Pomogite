@@ -20,7 +20,7 @@ public class HelloApplication extends Application {
         controller.setStage(stage);
 
 
-        stage.setTitle("Hello!");
+        stage.setTitle("Vacuole");
         stage.setScene(mainMenu);
         stage.show();
     }
