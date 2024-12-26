@@ -16,8 +16,8 @@ public class WorkPlaceController {
     private DatePicker datePicker;
     @FXML
     private TextArea plansTextArea;
-@FXML
-private VBox Plans_Container;
+    @FXML
+    private VBox Plans_Container;
     @FXML
     private VBox LabelContainer; // Контейнер для меток с планами
 

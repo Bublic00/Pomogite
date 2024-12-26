@@ -11,7 +11,7 @@
         </VBox>
         <Button fx:id="addbutton" layoutX="10.0" layoutY="99.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="131.0" text="Создать задачу" />
         <Button fx:id="savePlansButton" layoutX="10.0" layoutY="50.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="131.0" text="Сохранить планы" /> <!-- Кнопка для сохранения планов -->
-        <DatePicker fx:id="datePicker" layoutX="668.0" layoutY="31.0" />
+        <DatePicker fx:id="datePicker" layoutX="668.0" layoutY="31.0" /> <!-- Добавляем DatePicker -->
         <TextArea fx:id="plansTextArea" layoutX="668.0" layoutY="61.0" prefHeight="145.0" prefWidth="247.0" promptText="Введите планы на выбранный день..." /> <!-- Добавляем TextArea -->
     </children>
 </AnchorPane>
