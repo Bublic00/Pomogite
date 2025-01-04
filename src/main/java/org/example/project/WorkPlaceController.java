@@ -5,6 +5,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 public class WorkPlaceController {
@@ -17,9 +18,9 @@ public class WorkPlaceController {
     @FXML
     private TextArea plansTextArea;
     @FXML
-    private VBox Plans_Container;
+    private VBox LabelContainer; // Контейнер для меток с задачами
     @FXML
-    private VBox LabelContainer; // Контейнер для меток с планами
+    private VBox timeContainer; // Контейнер для меток с временем
 
     private Map<LocalDate, List<String>> plansMap = new HashMap<>();
 
@@ -28,6 +29,16 @@ public class WorkPlaceController {
         addbutton.setOnAction(e -> showInputDialog());
         savePlansButton.setOnAction(e -> savePlans());
         datePicker.setOnAction(e -> displayPlansForSelectedDate());
+
+        // Заполнение времени в контейнере
+        populateTimeContainer();
+    }
+
+    private void populateTimeContainer() {
+        for (int hour = 6; hour <= 22; hour++) {
+            Label timeLabel = new Label(String.format("%02d:00", hour));
+            timeContainer.getChildren().add(timeLabel);
+        }
     }
 
     @FXML
@@ -59,7 +70,7 @@ public class WorkPlaceController {
 
     private void displayPlansForSelectedDate() {
         LocalDate selectedDate = datePicker.getValue();
-        LabelContainer.getChildren().clear(); //очиста перед другой датой
+        LabelContainer.getChildren().clear(); // Очистка перед другой датой
         if (selectedDate != null && plansMap.containsKey(selectedDate)) {
             List<String> plans = plansMap.get(selectedDate);
             for (String plan : plans) {
@@ -67,6 +78,7 @@ public class WorkPlaceController {
             }
         }
     }
+
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
