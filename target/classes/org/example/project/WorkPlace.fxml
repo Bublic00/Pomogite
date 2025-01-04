@@ -3,19 +3,19 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.project.WorkPlaceController">
-    <children>
-        <VBox fx:id="timeContainer" alignment="TOP_LEFT" layoutX="10.0" layoutY="10.0" spacing="10.0" prefWidth="100.0">
-            <!-- Здесь будут метки с временем -->
-        </VBox>
+<AnchorPane id="Plans" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.project.WorkPlaceController">
+    <VBox alignment="TOP_LEFT" layoutX="10.0" layoutY="10.0" spacing="10">
+        <Label style="-fx-font-size: 2em;" text="Ваши планы" /> <!-- Заголовок для списка планов -->
+        <ScrollPane fx:id="plansScrollPane" prefHeight="400" prefWidth="600"> <!-- Прокручиваемая панель для отображения планов -->
+            <VBox id="Sortedplans" fx:id="plansContainer" alignment="TOP_LEFT" spacing="10" /> <!-- Контейнер для отображения карточек планов -->
+        </ScrollPane>
+    </VBox>
 
-        <VBox fx:id="LabelContainer" alignment="TOP_CENTER" layoutX="150.0" layoutY="10.0" prefHeight="498.0" prefWidth="436.0" spacing="10.0">
-            <!-- Здесь будут добавляться метки с задачами -->
-        </VBox>
-
-        <Button fx:id="addbutton" layoutX="10.0" layoutY="350.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="131.0" text="Создать задачу" />
-        <Button fx:id="savePlansButton" layoutX="10.0" layoutY="310.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="131.0" text="Сохранить планы" />
-        <DatePicker fx:id="datePicker" layoutX="668.0" layoutY="31.0" />
-        <TextArea fx:id="plansTextArea" layoutX="668.0" layoutY="61.0" prefHeight="145.0" prefWidth="247.0" promptText="Введите планы на выбранный день..." />
-    </children>
+    <VBox alignment="TOP_LEFT" layoutX="620.0" layoutY="10.0" spacing="10">
+        <Label style="-fx-font-size: 2em;" text="Добавить план" /> <!-- Заголовок для формы добавления плана -->
+        <DatePicker fx:id="datePicker" /> <!-- Элемент для выбора даты -->
+        <TextField fx:id="timeTextField" promptText="Введите время..." /> <!-- Поле для ввода времени -->
+        <TextArea fx:id="plansTextArea" prefHeight="100.0" promptText="Введите ваши планы..." /> <!-- Область для ввода текста плана -->
+        <Button fx:id="addPlanButton" onAction="#handleAddPlan" text="Добавить план" /> <!-- Кнопка для добавления плана -->
+    </VBox>
 </AnchorPane>

@@ -2,88 +2,111 @@ package org.example.project;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
-
+import javafx.scene.layout.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 public class WorkPlaceController {
-    @FXML
-    private Button addbutton;
-    @FXML
-    private Button savePlansButton;
-    @FXML
-    private DatePicker datePicker;
-    @FXML
-    private TextArea plansTextArea;
-    @FXML
-    private VBox LabelContainer; // Контейнер для меток с задачами
-    @FXML
-    private VBox timeContainer; // Контейнер для меток с временем
 
-    private Map<LocalDate, List<String>> plansMap = new HashMap<>();
+    // Элементы интерфейса, которые будут связаны с FXML
+    @FXML
+    private DatePicker datePicker; // Элемент для выбора даты
+
+    @FXML
+    private TextField timeTextField; // Поле для ввода времени
+
+    @FXML
+    private TextArea plansTextArea; // Область для ввода текста плана
+
+    @FXML
+    private Button addPlanButton; // Кнопка для добавления плана
+
+    @FXML
+    private VBox plansContainer; // Контейнер для отображения планов
+
+    // Хранение планов в виде словаря, где ключ - дата, значение - список планов
+    private Map<LocalDate, List<Plan>> plans;
+
 
     @FXML
     public void initialize() {
-        addbutton.setOnAction(e -> showInputDialog());
-        savePlansButton.setOnAction(e -> savePlans());
-        datePicker.setOnAction(e -> displayPlansForSelectedDate());
-
-        // Заполнение времени в контейнере
-        populateTimeContainer();
+        plans = new HashMap<>(); // Инициализация словаря для хранения планов
+        // Установка обработчика события для кнопки добавления плана
+        addPlanButton.setOnAction(e -> handleAddPlan());
     }
 
-    private void populateTimeContainer() {
-        for (int hour = 6; hour <= 22; hour++) {
-            Label timeLabel = new Label(String.format("%02d:00", hour));
-            timeContainer.getChildren().add(timeLabel);
-        }
-    }
-
+    // Метод для обработки добавления нового плана
     @FXML
-    private void showInputDialog() {
-        TextInputDialog vvodKategorii = new TextInputDialog();
-        vvodKategorii.setTitle("Ввод категории задачи");
-        vvodKategorii.setHeaderText("Введите название категории задачи:");
-        vvodKategorii.setContentText("Вводите");
-        Optional<String> result = vvodKategorii.showAndWait();
-        result.ifPresent(this::addLabel);
-    }
-
-    private void addLabel(String text) {
-        Label newLabel = new Label(text);
-        LabelContainer.getChildren().add(newLabel);
-    }
-
-    private void savePlans() {
+    private void handleAddPlan() {
         LocalDate selectedDate = datePicker.getValue();
-        String plans = plansTextArea.getText();
-        if (selectedDate != null && !plans.isEmpty()) {
-            plansMap.computeIfAbsent(selectedDate, k -> new ArrayList<>()).add(plans);
-            plansTextArea.clear();
-            displayPlansForSelectedDate();
+        String enteredTime = timeTextField.getText().trim();
+        String planText = plansTextArea.getText().trim();
+
+        if (selectedDate != null && !enteredTime.isEmpty() && !planText.isEmpty()) {
+            try {
+                LocalTime time = LocalTime.parse(enteredTime); // Проверка формата времени
+                Plan newPlan = new Plan(time, planText);
+
+                // Добавляем новый план в список для выбранной даты
+                plans.computeIfAbsent(selectedDate, k -> new ArrayList<>()).add(newPlan);
+
+                updatePlansDisplay(); // Обновляем отображение планов
+                plansTextArea.clear();
+                timeTextField.clear();
+            } catch (DateTimeParseException e) {
+                showAlert("Ошибка", "Неверный формат времени. Используйте HH:mm.");
+            }
         } else {
-            System.out.println("Выберите дату и введите планы");
+            showAlert("Ошибка", "Пожалуйста, выберите дату, введите время и план.");
         }
     }
 
-    private void displayPlansForSelectedDate() {
+    // Метод для обновления отображения планов в интерфейсе
+    private void updatePlansDisplay() {
+        plansContainer.getChildren().clear(); // Очищаем контейнер перед обновлением
+
         LocalDate selectedDate = datePicker.getValue();
-        LabelContainer.getChildren().clear(); // Очистка перед другой датой
-        if (selectedDate != null && plansMap.containsKey(selectedDate)) {
-            List<String> plans = plansMap.get(selectedDate);
-            for (String plan : plans) {
-                addLabel("Планы на " + selectedDate + ": " + plan);
+        if (selectedDate != null) {
+            List<Plan> plansForDate = plans.getOrDefault(selectedDate, new ArrayList<>());
+
+            // Сортировка планов по времени
+            plansForDate.sort(Comparator.comparing(Plan::getTime));
+
+            for (Plan plan : plansForDate) {
+                HBox planCard = createPlanCard(plan);
+                plansContainer.getChildren().add(planCard); // Добавляем карточку в контейнер
             }
         }
     }
 
+    // Метод для создания карточки плана
+    private HBox createPlanCard(Plan plan) {
+        HBox planCard = new HBox(10);
+        planCard.setStyle("-fx-padding: 10; -fx-background-color: #f0f0f0; -fx-border-color: #ccc; -fx-border-radius: 5; -fx-background-radius: 5;");
+
+        Label planLabel = new Label(plan.toString());
+        planLabel.setWrapText(true);
+
+        Button deleteButton = new Button("Удалить");
+        deleteButton.setOnAction(e -> {
+            plans.get(datePicker.getValue()).remove(plan);
+            updatePlansDisplay(); // Обновляем отображение после удаления
+        });
+
+        planCard.getChildren().addAll(planLabel, deleteButton);
+        return planCard;
+    }
+
+
+
+    // Метод для отображения сообщения об ошибке
     private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+        Alert alert = new Alert(Alert.AlertType.ERROR); // Создаем новое окно сообщения
+        alert.setTitle(title); // Устанавливаем заголовок
+        alert.setHeaderText(null); // Убираем заголовок
+        alert.setContentText(message); // Устанавливаем текст сообщения
+        alert.showAndWait(); // Показываем окно и ждем, пока оно будет закрыто
     }
 }
