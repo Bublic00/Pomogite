@@ -5,27 +5,26 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" fillWidth="true" spacing="10" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.project.MenuController">
+<VBox alignment="CENTER" spacing="10" style="-fx-background-color: #6495ED;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.project.MenuController">
   <children>
-    <Label style="-fx-font-size: 10em;" text="Vacuole" textAlignment="CENTER" textFill="#7e804b">
+    <Label style="-fx-font-size: 10em;" text="Vacuole" textAlignment="CENTER" textFill="#81efc7">
       <font>
         <Font name="Maiandra GD" size="88.0" />
       </font>
     </Label>
     <VBox alignment="CENTER" fillWidth="true" spacing="10">
       <children>
-        <Button onAction="#ClickWorkPlace" style="-fx-background-color: #87CEFA; -fx-font-size: 2em;" text="Начать планирование">
+        <Button onAction="#ClickWorkPlace" style="-fx-background-color: #a8e7d0; -fx-font-size: 2em;" text="Начать планирование">
           <padding>
             <Insets left="20.0" right="20.0" />
           </padding>
         </Button>
-        <Button onAction="#openSettings" style="-fx-background-color: #87CEFA; -fx-font-size: 2em;" text="Настройки">
+        <Button onAction="#openSettings" style="-fx-background-color: #a8e7d0; -fx-font-size: 2em;" text="Настройки">
           <padding>
             <Insets left="20.0" right="20.0" />
           </padding>
         </Button>
-            <Hyperlink onAction="#ClickFeedBack" text="Обратная связь " />
-        <Button onAction="#ExitButtonClick" style="-fx-background-color: #87CEFA; -fx-font-size: 2em;" text="Выход">
+        <Button onAction="#ExitButtonClick" style="-fx-background-color: #a8e7d0; -fx-font-size: 2em;" text="Выход">
           <padding>
             <Insets left="20.0" right="20.0" />
           </padding>
