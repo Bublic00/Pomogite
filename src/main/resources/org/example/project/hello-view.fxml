@@ -26,6 +26,9 @@
           </padding>
         </Button>
         <Button onAction="#ExitButtonClick" style="-fx-background-color: #87CEFA; -fx-font-size: 2em;" text="Выход">
+          <padding>
+            <Insets left="20.0" right="20.0" />
+          </padding>
         </Button>
       </children>
     </VBox>

@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.collections.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import java.lang.String?>
-<?import javafx.collections.FXCollections?>
-<VBox xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" spacing="10" alignment="CENTER" fx:controller="org.example.project.SettingsController">
-    <Label text="Настройки" style="-fx-font-size: 3em;"/>
+<VBox alignment="CENTER" prefHeight="352.0" prefWidth="480.0" spacing="10" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.project.SettingsController">
+    <Label style="-fx-font-size: 3em;" text="Настройки" />
 
     <HBox spacing="10">
-        <Label text="Выберите тему:"/>
+        <Label text="Выберите тему:" />
         <ComboBox fx:id="themeComboBox">
             <items>
                 <FXCollections fx:factory="observableArrayList">
-                    <String fx:value="Светлая"/>
-                    <String fx:value="Темная"/>
+                    <String fx:value="Светлая" />
+                    <String fx:value="Темная" />
                 </FXCollections>
             </items>
         </ComboBox>
     </HBox>
 
-    <Button text="Сохранить" onAction="#saveSettings"/>
-    <Button text="Назад" onAction="#Back_onMenu"/>
+    <Button onAction="#saveSettings" text="Сохранить" />
+    <Button onAction="#Back_onMenu" text="Назад" />
 </VBox>
