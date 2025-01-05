@@ -9,7 +9,10 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
+import java.awt.Desktop; // Исправленный импорт
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class MenuController {
 
@@ -25,6 +28,18 @@ public class MenuController {
     @FXML
     private void ClickWorkPlace() {
         loadScene("WorkPlace.fxml");
+    }
+
+    @FXML
+    private void ClickFeedBack() {
+        try {
+            URI uri = new URI("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+            Desktop.getDesktop().browse(uri);
+        } catch (IOException e) {
+            System.err.println("Ошибка при открытии браузера: " + e.getMessage());
+        } catch (URISyntaxException e) {
+            System.err.println("Некорректный URI: " + e.getMessage());
+        }
     }
 
     @FXML
