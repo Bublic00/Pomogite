@@ -22,6 +22,7 @@ public class HelloApplication extends Application {
         stage.setTitle("Vacuole");
         stage.setScene(mainMenu);
         stage.show();
+        stage.setFullScreenExitHint("");
         stage.setFullScreen(true);
     }
 
