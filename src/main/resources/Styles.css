@@ -1,0 +1,36 @@
+/* styles.css */
+
+/* Основной стиль для VBox */
+.vbox {
+    -fx-background-color: #ffffff; /* Белый фон */
+    -fx-padding: 20; /* Отступы внутри VBox */
+    -fx-spacing: 10; /* Промежутки между дочерними элементами */
+    -fx-border-color: #e0e0e0; /* Цвет рамки */
+    -fx-border-width: 1; /* Ширина рамки */
+    -fx-border-radius: 5; /* Закругленные углы */
+}
+
+/* Стиль для заголовков */
+.label {
+    -fx-font-size: 24; /* Размер шрифта заголовка */
+    -fx-text-fill: #333333; /* Цвет текста */
+    -fx-font-weight: bold; /* Жирный шрифт */
+}
+
+/* Стиль для кнопок */
+.button {
+    -fx-background-color: #007bff; /* Цвет фона кнопки */
+    -fx-text-fill: white; /* Цвет текста кнопки */
+    -fx-font-size: 14; /* Размер шрифта */
+    -fx-padding: 10 20; /* Отступы внутри кнопки */
+    -fx-background-radius: 5; /* Закругление углов кнопки */
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 5, 0, 0, 1); /* Тень */
+}
+
+/* Стиль для текстовых полей */
+.text-field {
+    -fx-background-color: #f7f7f7; /* Цвет фона текстового поля */
+    -fx-border-color: #e0e0e0; /* Цвет рамки текстового поля */
+    -fx-border-radius: 5; /* Закругленные углы */
+    -fx-padding: 10; /* Отступы внутри текстового поля */
+}
