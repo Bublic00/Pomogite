@@ -3,9 +3,12 @@ package org.example.project;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+
+import javax.sound.sampled.DataLine;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
+import java.time.format.TextStyle;
 import java.util.*;
 
 public class WorkPlaceController {
@@ -26,6 +29,9 @@ public class WorkPlaceController {
     @FXML
     private VBox plansContainer; // Контейнер для отображения планов
 
+    @FXML
+    private  Label DataLabel;
+
     // Хранение планов в виде словаря, где ключ - дата, значение - список планов
     private Map<LocalDate, List<Plan>> plans;
 
@@ -33,7 +39,7 @@ public class WorkPlaceController {
     @FXML
     public void initialize() {
         plans = new HashMap<>(); // Инициализация словаря для хранения планов
-        // Установка обработчика события для кнопки добавления плана
+        setText();
         addPlanButton.setOnAction(e -> handleAddPlan());
     }
 
@@ -99,8 +105,6 @@ public class WorkPlaceController {
         return planCard;
     }
 
-
-
     // Метод для отображения сообщения об ошибке
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR); // Создаем новое окно сообщения
@@ -108,5 +112,13 @@ public class WorkPlaceController {
         alert.setHeaderText(null); // Убираем заголовок
         alert.setContentText(message); // Устанавливаем текст сообщения
         alert.showAndWait(); // Показываем окно и ждем, пока оно будет закрыто
+    }
+
+    private void setText()
+    {
+        LocalDate localDate = LocalDate.now();
+        int todayData = localDate.getDayOfMonth();
+        String todayMonth = localDate.getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault());
+        DataLabel.setText(todayData + " " + todayMonth);
     }
 }
