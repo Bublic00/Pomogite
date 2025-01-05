@@ -25,6 +25,7 @@ public class MenuController {
     @FXML
     private void ClickWorkPlace() {
         loadScene("WorkPlace.fxml");
+        stage.setFullScreen(true);
     }
 
     @FXML
@@ -37,7 +38,7 @@ public class MenuController {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFile));
                 Parent root = fxmlLoader.load();
-                Scene newScene = new Scene(root, Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+                Scene newScene = new Scene(root);
                 stage.setScene(newScene);
             } catch (IOException e) {
                 e.printStackTrace();

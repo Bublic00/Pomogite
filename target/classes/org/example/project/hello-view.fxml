@@ -1,31 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.project.MenuController" spacing="10" alignment="CENTER" fillWidth="true">
+<VBox alignment="CENTER" spacing="10" style="-fx-background-color: #6495ED;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.project.MenuController">
   <children>
-    <Label text="Vacuole" textAlignment="CENTER" textFill="#7e804b" style="-fx-font-size: 10em;">
+    <Label style="-fx-font-size: 10em;" text="Vacuole" textAlignment="CENTER" textFill="#81efc7">
       <font>
         <Font name="Maiandra GD" size="88.0" />
       </font>
     </Label>
-    <VBox spacing="10" alignment="CENTER" fillWidth="true">
+    <VBox alignment="CENTER" fillWidth="true" spacing="10">
       <children>
-        <Button onAction="#ClickWorkPlace" style="-fx-background-color: #87CEFA; -fx-font-size: 2em;" text="Начать планирование">
+        <Button onAction="#ClickWorkPlace" style="-fx-background-color: #a8e7d0; -fx-font-size: 2em;" text="Начать планирование">
           <padding>
             <Insets left="20.0" right="20.0" />
           </padding>
         </Button>
-        <Button onAction="#openSettings" style="-fx-background-color: #87CEFA; -fx-font-size: 2em;" text="Настройки">
+        <Button onAction="#openSettings" style="-fx-background-color: #a8e7d0; -fx-font-size: 2em;" text="Настройки">
           <padding>
             <Insets left="20.0" right="20.0" />
           </padding>
         </Button>
-        <Button onAction="#ExitButtonClick" style="-fx-background-color: #87CEFA; -fx-font-size: 2em;" text="Выход">
+        <Button onAction="#ExitButtonClick" style="-fx-background-color: #a8e7d0; -fx-font-size: 2em;" text="Выход">
+          <padding>
+            <Insets left="20.0" right="20.0" />
+          </padding>
         </Button>
       </children>
     </VBox>
