@@ -1,34 +1,37 @@
 package org.example.project;
 
-import javafx.scene.paint.Color;
-
 import java.time.LocalTime;
 
 public class Plan {
     private LocalTime time;
     private String text;
-    private Color color  ;
+    private Category category;
 
-    public Plan(LocalTime time, String text) {
+
+    public Plan(LocalTime time, String text, Category selectedCategory) {
         this.time = time;
         this.text = text;
+        this.category=selectedCategory;
     }
 
     public LocalTime getTime() {
         return time;
     }
 
+    public Category getCategory() {
+        return category;
+    }
+
     public String getText() {
         return text;
     }
-    public  void setColor(Color color){
-        this.color = color;
+
+    public String getCategoryName(){
+return  (category!= null)? category.getName():"Без категории";
     }
-    public Color getColor(){
-        return color ;
-    }
+
     @Override
     public String toString(){
-        return String.format("Время: %s - План: %s",time,text);
+        return String.format("Время: %s - План: %s - Категория: %s", time, text, category.getName());
     }
 }

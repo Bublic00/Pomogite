@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ColorPicker?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane id="Plans" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.project.WorkPlaceController">
+<AnchorPane id="Plans" prefHeight="586.0" prefWidth="1244.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.project.WorkPlaceController">
 
     <VBox alignment="TOP_CENTER" layoutX="888.0" prefHeight="270.0" prefWidth="204.0" spacing="10">
         <Label alignment="TOP_CENTER" contentDisplay="RIGHT" prefHeight="35.0" prefWidth="274.0" style="-fx-font-size: 2em;" text="Добавить план" /> <!-- Заголовок для формы добавления плана -->
@@ -20,7 +12,8 @@
         <TextArea fx:id="plansTextArea" prefHeight="82.0" prefWidth="264.0" promptText="Ввести план.." /> <!-- Область для ввода текста плана -->
         <Button fx:id="addPlanButton" onAction="#handleAddPlan" text="Добавить план" /> <!-- Кнопка для добавления плана -->
     </VBox>
-    <AnchorPane prefHeight="528.0" prefWidth="667.0">
+
+    <AnchorPane layoutY="2.0" prefHeight="300.0" prefWidth="900.0">
         <children>
             <Label alignment="CENTER" contentDisplay="TOP" prefHeight="35.0" prefWidth="882.0" style="-fx-background-color: #544854;" text="Тут сегодняшнее число и месяц" />
             <TableView layoutX="-1.0" layoutY="35.0" prefHeight="500.0" prefWidth="882.0">
@@ -36,5 +29,15 @@
             </TableView>
         </children>
     </AnchorPane>
-    <ColorPicker  fx:id="colorPicker"   layoutX="902.0" layoutY="268.0" />
+
+    <VBox fx:id="plansContainer" layoutX="888.0" layoutY="349.0" prefHeight="227.0" prefWidth="170.0" />
+    <VBox alignment="TOP_LEFT" layoutX="1058.0" layoutY="239.0" spacing="10">
+        <children>
+            <TextField fx:id="categoryNameField" promptText="Введите название категории" />
+            <ColorPicker fx:id="categoryColorPicker" />
+            <Button onAction="#addCategory" text="Добавить категорию" />
+            <VBox fx:id="categoriesContainer" spacing="10" />
+            <ComboBox fx:id="categoryComboBox" promptText="Выберите категорию" />
+        </children>
+    </VBox>
 </AnchorPane>
