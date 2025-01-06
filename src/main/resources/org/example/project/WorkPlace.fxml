@@ -15,7 +15,7 @@
 
     <AnchorPane layoutY="2.0" prefHeight="300.0" prefWidth="900.0">
         <children>
-            <Label alignment="CENTER" contentDisplay="TOP" prefHeight="35.0" prefWidth="882.0" style="-fx-background-color: #544854;" text="Тут сегодняшнее число и месяц" />
+            <Label fx:id="DataLabel" alignment="CENTER" contentDisplay="TOP" prefHeight="35.0" prefWidth="882.0" style="-fx-background-color: #544854;" />
             <TableView layoutX="-1.0" layoutY="35.0" prefHeight="500.0" prefWidth="882.0">
                 <columns>
                     <TableColumn minWidth="126.0" prefWidth="126.0" text="ПН" />

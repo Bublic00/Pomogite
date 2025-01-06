@@ -1,12 +1,10 @@
 package org.example.project;
-
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
@@ -15,15 +13,17 @@ import java.net.URISyntaxException;
 //Контроллер для главной менюшки
 public class MenuController {
     private Stage stage;
-
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
+    /////////////////////////////////////ТАБЛИЦА С ЗАДАЧАМИ/////////////////////////////////////
     @FXML
     private void ClickWorkPlace() {
         loadScene("WorkPlace.fxml");
     }
+
+    /////////////////////////////////////ТИПО ОБРАТНАЯ СВЯЗЬ/////////////////////////////////////
     @FXML
     private void ClickFeedBack() {
         try {
@@ -42,14 +42,6 @@ public class MenuController {
         loadScene("Settings.fxml");
     }
 
-    /////////////////////////////////////ВЫХОД ИЗ ПРОГРАММЫ(самое сложное)/////////////////////////////////////
-    @FXML
-    private void ExitButtonClick() {
-        Platform.exit();
-    }
-
-
-
     public void loadScene(String fxmlFile) {
         if (stage != null) {
             try {
@@ -65,5 +57,11 @@ public class MenuController {
         } else {
             System.out.println("Stage is null");
         }
+    }
+
+    /////////////////////////////////////ВЫХОД ИЗ ПРОГРАММЫ(самое сложное)/////////////////////////////////////
+    @FXML
+    private void ExitButtonClick() {
+        Platform.exit();
     }
 }

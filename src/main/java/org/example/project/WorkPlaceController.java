@@ -10,6 +10,7 @@ import javafx.util.StringConverter;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
+import java.time.format.TextStyle;
 import java.util.*;
 
 public class WorkPlaceController {
@@ -30,6 +31,9 @@ public class WorkPlaceController {
     private TextField categoryNameField; // Поле для ввода названия категории
     @FXML
     private ColorPicker categoryColorPicker; // ColorPicker для выбора цвета категории
+
+    @FXML
+    private  Label DataLabel;
     @FXML
     private ComboBox<Category> categoryComboBox; // Комбо-бокс для выбора категории
 
@@ -49,6 +53,7 @@ public class WorkPlaceController {
                 return null;
             }
         });
+        setText();
         categories = new ArrayList<>();
         plans = new HashMap<>();
         addPlanButton.setOnAction(e -> handleAddPlan());
@@ -139,5 +144,13 @@ public class WorkPlaceController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    private void setText()
+    {
+        LocalDate localDate = LocalDate.now();
+        int todayData = localDate.getDayOfMonth();
+        String todayMonth = localDate.getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault());
+        DataLabel.setText(todayData + " " + todayMonth);
     }
 }
