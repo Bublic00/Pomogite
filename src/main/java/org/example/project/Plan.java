@@ -32,6 +32,6 @@ return  (category!= null)? category.getName():"Без категории";
 
     @Override
     public String toString(){
-        return String.format("Время: %s - План: %s - Категория: %s", time, text, category.getName());
+        return String.format("Время: %s - План: %s ", time, text);
     }
 }

@@ -5,6 +5,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.util.StringConverter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -37,6 +38,17 @@ public class WorkPlaceController {
 
     @FXML
     public void initialize() {
+        categoryComboBox.setConverter(new StringConverter<Category>() {
+            @Override
+            public String toString(Category category) {
+                return category != null? category.getName():"";
+            }
+
+            @Override
+            public Category fromString(String s) {
+                return null;
+            }
+        });
         categories = new ArrayList<>();
         plans = new HashMap<>();
         addPlanButton.setOnAction(e -> handleAddPlan());
@@ -106,6 +118,8 @@ public class WorkPlaceController {
     private HBox createPlanCard(Plan plan) {
         HBox planCard = new HBox(10);
         planCard.setStyle("-fx-padding: 10; -fx-border-color: #ccc; -fx-border-radius: 5; -fx-background-radius: 5;");
+        Circle colorCircle = new Circle(5);
+        colorCircle.setFill(plan.getCategory().getColor());
         Label planLabel = new Label(plan.toString());
         planLabel.setWrapText(true);
 
@@ -115,7 +129,7 @@ public class WorkPlaceController {
             updatePlansDisplay();
         });
 
-        planCard.getChildren().addAll(planLabel, deleteButton);
+        planCard.getChildren().addAll(colorCircle,planLabel, deleteButton);
         return planCard;
     }
 
