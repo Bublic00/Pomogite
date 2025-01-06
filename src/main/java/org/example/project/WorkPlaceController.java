@@ -1,10 +1,12 @@
 package org.example.project;
 
+
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
-import javax.sound.sampled.DataLine;
+import javax.swing.table.TableColumn;
+import javax.swing.text.TableView;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
@@ -28,6 +30,12 @@ public class WorkPlaceController {
 
     @FXML
     private VBox plansContainer; // Контейнер для отображения планов
+
+    @FXML
+    private TableView tableView;
+
+    @FXML
+    private TableColumn pn;
 
     @FXML
     private  Label DataLabel;
@@ -120,5 +128,11 @@ public class WorkPlaceController {
         int todayData = localDate.getDayOfMonth();
         String todayMonth = localDate.getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault());
         DataLabel.setText(todayData + " " + todayMonth);
+    }
+
+    private void ddddcsc()
+    {
+
+
     }
 }
