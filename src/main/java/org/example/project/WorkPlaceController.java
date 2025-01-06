@@ -3,6 +3,8 @@ package org.example.project;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
@@ -22,6 +24,8 @@ public class WorkPlaceController {
 
     @FXML
     private Button addPlanButton; // Кнопка для добавления плана
+    @FXML
+    private ColorPicker colorPicker;
 
     @FXML
     private VBox plansContainer; // Контейнер для отображения планов
@@ -48,6 +52,8 @@ public class WorkPlaceController {
             try {
                 LocalTime time = LocalTime.parse(enteredTime); // Проверка формата времени
                 Plan newPlan = new Plan(time, planText);
+                Color selectedColor=colorPicker.getValue();
+                newPlan.setColor(selectedColor);
 
                 // Добавляем новый план в список для выбранной даты
                 plans.computeIfAbsent(selectedDate, k -> new ArrayList<>()).add(newPlan);

@@ -9,7 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
-import java.awt.Desktop; // Исправленный импорт
+import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -28,7 +28,7 @@ public class MenuController {
     @FXML
     private void ClickWorkPlace() {
         loadScene("WorkPlace.fxml");
-        stage.setFullScreen(true);
+        ;
     }
 
     @FXML
@@ -55,6 +55,7 @@ public class MenuController {
                 Parent root = fxmlLoader.load();
                 Scene newScene = new Scene(root);
                 stage.setScene(newScene);
+                stage.setFullScreen(true);
             } catch (IOException e) {
                 e.printStackTrace();
             }
