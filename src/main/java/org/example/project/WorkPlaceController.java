@@ -1,138 +1,143 @@
 package org.example.project;
 
-
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.util.StringConverter;
 
-import javax.swing.table.TableColumn;
-import javax.swing.text.TableView;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
-import java.time.format.TextStyle;
 import java.util.*;
 
 public class WorkPlaceController {
 
-    // Элементы интерфейса, которые будут связаны с FXML
     @FXML
-    private DatePicker datePicker; // Элемент для выбора даты
-
+    private DatePicker datePicker;
     @FXML
-    private TextField timeTextField; // Поле для ввода времени
-
+    private TextField timeTextField;
     @FXML
-    private TextArea plansTextArea; // Область для ввода текста плана
-
+    private TextArea plansTextArea;
     @FXML
-    private Button addPlanButton; // Кнопка для добавления плана
-
+    private Button addPlanButton;
     @FXML
     private VBox plansContainer; // Контейнер для отображения планов
-
     @FXML
-    private TableView tableView;
-
+    private VBox categoriesContainer; // Контейнер для отображения категорий
     @FXML
-    private TableColumn pn;
-
+    private TextField categoryNameField; // Поле для ввода названия категории
     @FXML
-    private  Label DataLabel;
+    private ColorPicker categoryColorPicker; // ColorPicker для выбора цвета категории
+    @FXML
+    private ComboBox<Category> categoryComboBox; // Комбо-бокс для выбора категории
 
-    // Хранение планов в виде словаря, где ключ - дата, значение - список планов
-    private Map<LocalDate, List<Plan>> plans;
-
+    private List<Category> categories; // Список категорий
+    private Map<LocalDate, List<Plan>> plans; // Хранение планов по датам
 
     @FXML
     public void initialize() {
-        plans = new HashMap<>(); // Инициализация словаря для хранения планов
-        setText();
+        categoryComboBox.setConverter(new StringConverter<Category>() {
+            @Override
+            public String toString(Category category) {
+                return category != null? category.getName():"";
+            }
+
+            @Override
+            public Category fromString(String s) {
+                return null;
+            }
+        });
+        categories = new ArrayList<>();
+        plans = new HashMap<>();
         addPlanButton.setOnAction(e -> handleAddPlan());
     }
 
-    // Метод для обработки добавления нового плана
+    @FXML
+    private void addCategory() {
+        String name = categoryNameField.getText().trim();
+        Color color = categoryColorPicker.getValue();
+        if (!name.isEmpty()) {
+            Category newCategory = new Category(name, color);
+            categories.add(newCategory);
+            categoryComboBox.getItems().add(newCategory);
+            createCategoryCard(newCategory);
+            categoryNameField.clear();
+        } else {
+            showAlert("Ошибка", "Название категории не может быть пустым.");
+        }
+    }
+
+    private void createCategoryCard(Category category) {
+        HBox categoryCard = new HBox(10);
+        categoryCard.setStyle("-fx-padding: 10; -fx-background-color: #f0f0f0; -fx-border-color: #ccc; -fx-border-radius: 5; -fx-background-radius: 5;");
+        Circle colorCircle = new Circle(15);
+        colorCircle.setFill(category.getColor());
+        Label categoryLabel = new Label(category.getName());
+        categoryCard.getChildren().addAll(colorCircle, categoryLabel);
+        categoriesContainer.getChildren().add(categoryCard);
+    }
+
     @FXML
     private void handleAddPlan() {
         LocalDate selectedDate = datePicker.getValue();
         String enteredTime = timeTextField.getText().trim();
         String planText = plansTextArea.getText().trim();
+        Category selectedCategory = categoryComboBox.getValue();
 
-        if (selectedDate != null && !enteredTime.isEmpty() && !planText.isEmpty()) {
+        if (selectedDate != null && !enteredTime.isEmpty() && !planText.isEmpty() && selectedCategory != null) {
             try {
-                LocalTime time = LocalTime.parse(enteredTime); // Проверка формата времени
-                Plan newPlan = new Plan(time, planText);
-
-                // Добавляем новый план в список для выбранной даты
+                LocalTime time = LocalTime.parse(enteredTime);
+                Plan newPlan = new Plan(time, planText, selectedCategory); // Передаем категорию в конструктор
                 plans.computeIfAbsent(selectedDate, k -> new ArrayList<>()).add(newPlan);
-
-                updatePlansDisplay(); // Обновляем отображение планов
+                updatePlansDisplay();
                 plansTextArea.clear();
                 timeTextField.clear();
             } catch (DateTimeParseException e) {
                 showAlert("Ошибка", "Неверный формат времени. Используйте HH:mm.");
             }
         } else {
-            showAlert("Ошибка", "Пожалуйста, выберите дату, введите время и план.");
+            showAlert("Ошибка", "Пожалуйста, выберите дату, введите время, план и выберите категорию.");
         }
     }
 
-    // Метод для обновления отображения планов в интерфейсе
     private void updatePlansDisplay() {
-        plansContainer.getChildren().clear(); // Очищаем контейнер перед обновлением
-
+        plansContainer.getChildren().clear();
         LocalDate selectedDate = datePicker.getValue();
         if (selectedDate != null) {
             List<Plan> plansForDate = plans.getOrDefault(selectedDate, new ArrayList<>());
-
-            // Сортировка планов по времени
             plansForDate.sort(Comparator.comparing(Plan::getTime));
-
             for (Plan plan : plansForDate) {
                 HBox planCard = createPlanCard(plan);
-                plansContainer.getChildren().add(planCard); // Добавляем карточку в контейнер
+                plansContainer.getChildren().add(planCard);
             }
         }
     }
 
-    // Метод для создания карточки плана
     private HBox createPlanCard(Plan plan) {
         HBox planCard = new HBox(10);
-        planCard.setStyle("-fx-padding: 10; -fx-background-color: #f0f0f0; -fx-border-color: #ccc; -fx-border-radius: 5; -fx-background-radius: 5;");
-
+        planCard.setStyle("-fx-padding: 10; -fx-border-color: #ccc; -fx-border-radius: 5; -fx-background-radius: 5;");
+        Circle colorCircle = new Circle(5);
+        colorCircle.setFill(plan.getCategory().getColor());
         Label planLabel = new Label(plan.toString());
         planLabel.setWrapText(true);
 
         Button deleteButton = new Button("Удалить");
         deleteButton.setOnAction(e -> {
             plans.get(datePicker.getValue()).remove(plan);
-            updatePlansDisplay(); // Обновляем отображение после удаления
+            updatePlansDisplay();
         });
 
-        planCard.getChildren().addAll(planLabel, deleteButton);
+        planCard.getChildren().addAll(colorCircle,planLabel, deleteButton);
         return planCard;
     }
 
-    // Метод для отображения сообщения об ошибке
     private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR); // Создаем новое окно сообщения
-        alert.setTitle(title); // Устанавливаем заголовок
-        alert.setHeaderText(null); // Убираем заголовок
-        alert.setContentText(message); // Устанавливаем текст сообщения
-        alert.showAndWait(); // Показываем окно и ждем, пока оно будет закрыто
-    }
-
-    private void setText()
-    {
-        LocalDate localDate = LocalDate.now();
-        int todayData = localDate.getDayOfMonth();
-        String todayMonth = localDate.getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault());
-        DataLabel.setText(todayData + " " + todayMonth);
-    }
-
-    private void ddddcsc()
-    {
-
-
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
