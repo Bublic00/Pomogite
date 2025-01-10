@@ -18,7 +18,4 @@ public class Category {
     public Color getColor() {
         return color;
     }
-    public String toString(){
-        return name;
-    }
 }
