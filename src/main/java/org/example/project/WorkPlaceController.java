@@ -1,17 +1,26 @@
 package org.example.project;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.StringConverter;
-
+import javafx.event.ActionEvent; // Импортируем ActionEvent
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.time.format.TextStyle;
 import java.util.*;
+import javafx.scene.Node; // Импортируем Node
 
 public class WorkPlaceController {
 
@@ -49,6 +58,24 @@ public class WorkPlaceController {
     private Label dataLabel;
     private List<Category> categories; // Список категорий
     private Map<LocalDate, List<Plan>> plans; // Хранение планов по датам
+    @FXML
+    private void Back_onMenu(ActionEvent event){
+
+        try{
+            FXMLLoader fxloader=new FXMLLoader(getClass().getResource("hello-view.fxml"));
+            Parent root=fxloader.load();
+            Stage stage=(Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            Screen screen = Screen.getPrimary();
+            stage.setWidth(screen.getVisualBounds().getWidth());
+            stage.setHeight(screen.getVisualBounds().getHeight());
+
+            stage.setScene(new Scene(root));
+                stage.show();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     public void initialize() {
@@ -79,6 +106,7 @@ public class WorkPlaceController {
         String todayMonth = localDate.getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault());
         dataLabel.setText(todayData + " " + todayMonth);
     }
+
     @FXML
     private void addCategory() {
         String name = categoryNameField.getText().trim();
