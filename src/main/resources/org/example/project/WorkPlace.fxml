@@ -9,6 +9,7 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -45,7 +46,24 @@
             <ListView fx:id="fridayListView" layoutX="760.0" layoutY="49.0" prefHeight="740.0" prefWidth="190.0" />
             <ListView fx:id="saturdayListView" layoutX="950.0" layoutY="49.0" prefHeight="740.0" prefWidth="190.0" />
             <ListView fx:id="sundayListView" layoutX="1140.0" layoutY="49.0" prefHeight="740.0" prefWidth="190.0" />
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="190.0" text="Понедельник" />
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="190.0" layoutY="-4.0" prefHeight="35.0" prefWidth="190.0" text="Вторник" />
+            <Label alignment="CENTER" layoutX="380.0" layoutY="1.0" prefHeight="26.0" prefWidth="190.0" text="Среда" />
+            <Label alignment="CENTER" layoutX="570.0" layoutY="2.0" prefHeight="26.0" prefWidth="190.0" text="Четверг" />
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="760.0" layoutY="1.0" prefHeight="26.0" prefWidth="190.0" text="Пятница" />
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="950.0" layoutY="-3.0" prefHeight="35.0" prefWidth="190.0" text="Суббота" />
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="1140.0" layoutY="2.0" prefHeight="26.0" prefWidth="190.0" text="Воскресенье" />
+            <HBox fx:id="Hbox" layoutY="26.0" prefHeight="26.0" prefWidth="1329.0">
+                <children>
+                    <Label alignment="CENTER" prefHeight="54.0" prefWidth="190.0" />
+                    <Label alignment="CENTER" prefHeight="40.0" prefWidth="190.0" />
+                    <Label alignment="CENTER" prefHeight="44.0" prefWidth="190.0" />
+                    <Label alignment="CENTER" prefHeight="26.0" prefWidth="190.0" />
+                    <Label alignment="CENTER" prefHeight="47.0" prefWidth="190.0" />
+                    <Label alignment="CENTER" prefHeight="56.0" prefWidth="190.0" />
+                    <Label alignment="CENTER" prefHeight="47.0" prefWidth="190.0" />
+                </children>
+            </HBox>
         </children>
     </AnchorPane>
-    <Button fx:id="Back_Menu" layoutX="30.0" onAction="#Back_onMenu" layoutY="417.0" mnemonicParsing="false" text="Ввернуться в меню" />
 </AnchorPane>

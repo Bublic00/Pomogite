@@ -17,8 +17,10 @@ import javafx.event.ActionEvent; // Импортируем ActionEvent
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.TextStyle;
+import java.time.temporal.ChronoField;
 import java.util.*;
 import javafx.scene.Node; // Импортируем Node
 
@@ -56,6 +58,10 @@ public class WorkPlaceController {
     private ComboBox<Category> categoryComboBox; // Комбо-бокс для выбора категории
     @FXML
     private Label dataLabel;
+    @FXML
+    private HBox Hbox;
+    @FXML
+    private Label DayOfWeekMonday;
     private List<Category> categories; // Список категорий
     private Map<LocalDate, List<Plan>> plans; // Хранение планов по датам
     @FXML
@@ -79,6 +85,7 @@ public class WorkPlaceController {
 
     @FXML
     public void initialize() {
+        setTodayData();
         categoryComboBox.setConverter(new StringConverter<Category>() {
             @Override
             public String toString(Category category) {
@@ -90,7 +97,6 @@ public class WorkPlaceController {
                 return null;
             }
         });
-        setText();
         categories = new ArrayList<>();
         plans = new HashMap<>();
         addPlanButton.setOnAction(e -> handleAddPlan());
@@ -99,12 +105,27 @@ public class WorkPlaceController {
         datePicker.setOnAction(e -> updatePlansDisplay());
     }
 
-    private void setText()
+    //Установка текста для сегодняшнег дня
+    private void setTodayData()
     {
+        //Верхушка
         LocalDate localDate = LocalDate.now();
         int todayData = localDate.getDayOfMonth();
         String todayMonth = localDate.getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault());
         dataLabel.setText(todayData + " " + todayMonth);
+
+        //Даты дней недели
+        LocalDate startOfWeek = localDate.with(ChronoField.DAY_OF_WEEK, 1); // Пн
+        for (int i = 0; i < 7; i++) {
+            LocalDate date = startOfWeek.plusDays(i);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+            String formattedDate = date.format(formatter);
+            Label l = (Label) Hbox.getChildren().get(i);
+            l.setText(formattedDate);
+        }
+
+        //Планы на эту неделю
+
     }
 
     @FXML
@@ -168,10 +189,14 @@ public class WorkPlaceController {
         // Получаем текущую дату и определяем начало недели
         LocalDate currentDate = datePicker.getValue();
         if (currentDate != null) {
-            LocalDate startOfWeek = currentDate.with(java.time.temporal.ChronoField.DAY_OF_WEEK, 1); // Пн
+            LocalDate startOfWeek = currentDate.with(ChronoField.DAY_OF_WEEK, 1); // Пн
             for (int i = 0; i < 7; i++) {
                 LocalDate date = startOfWeek.plusDays(i);
                 List<Plan> plansForDate = plans.getOrDefault(date, new ArrayList<>());
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+                String formattedDate = date.format(formatter);
+                Label l = (Label) Hbox.getChildren().get(i);
+                l.setText(formattedDate);
                 for (Plan plan : plansForDate) {
                     switch (i) {
                         case 0: mondayListView.getItems().add(plan); break; // Пн
@@ -194,6 +219,4 @@ public class WorkPlaceController {
         alert.setContentText(message);
         alert.showAndWait();
     }
-
-
 }
