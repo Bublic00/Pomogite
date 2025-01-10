@@ -24,19 +24,29 @@ public class WorkPlaceController {
     @FXML
     private Button addPlanButton;
     @FXML
-    private VBox plansContainer; // Контейнер для отображения планов
+    private ListView<Plan> mondayListView; // ListView для понедельника
+    @FXML
+    private ListView<Plan> tuesdayListView; // ListView для вторника
+    @FXML
+    private ListView<Plan> wednesdayListView; // ListView для среды
+    @FXML
+    private ListView<Plan> thursdayListView; // ListView для четверга
+    @FXML
+    private ListView<Plan> fridayListView; // ListView для пятницы
+    @FXML
+    private ListView<Plan> saturdayListView; // ListView для субботы
+    @FXML
+    private ListView<Plan> sundayListView; // ListView для воскресенья
     @FXML
     private VBox categoriesContainer; // Контейнер для отображения категорий
     @FXML
     private TextField categoryNameField; // Поле для ввода названия категории
     @FXML
     private ColorPicker categoryColorPicker; // ColorPicker для выбора цвета категории
-
-    @FXML
-    private  Label DataLabel;
     @FXML
     private ComboBox<Category> categoryComboBox; // Комбо-бокс для выбора категории
-
+    @FXML
+    private Label dataLabel;
     private List<Category> categories; // Список категорий
     private Map<LocalDate, List<Plan>> plans; // Хранение планов по датам
 
@@ -45,7 +55,7 @@ public class WorkPlaceController {
         categoryComboBox.setConverter(new StringConverter<Category>() {
             @Override
             public String toString(Category category) {
-                return category != null? category.getName():"";
+                return category != null ? category.getName() : "";
             }
 
             @Override
@@ -57,8 +67,18 @@ public class WorkPlaceController {
         categories = new ArrayList<>();
         plans = new HashMap<>();
         addPlanButton.setOnAction(e -> handleAddPlan());
+
+        // Обработчик для изменения даты
+        datePicker.setOnAction(e -> updatePlansDisplay());
     }
 
+    private void setText()
+    {
+        LocalDate localDate = LocalDate.now();
+        int todayData = localDate.getDayOfMonth();
+        String todayMonth = localDate.getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault());
+        dataLabel.setText(todayData + " " + todayMonth);
+    }
     @FXML
     private void addCategory() {
         String name = categoryNameField.getText().trim();
@@ -94,7 +114,7 @@ public class WorkPlaceController {
         if (selectedDate != null && !enteredTime.isEmpty() && !planText.isEmpty() && selectedCategory != null) {
             try {
                 LocalTime time = LocalTime.parse(enteredTime);
-                Plan newPlan = new Plan(time, planText, selectedCategory); // Передаем категорию в конструктор
+                Plan newPlan = new Plan(time, planText, selectedCategory);
                 plans.computeIfAbsent(selectedDate, k -> new ArrayList<>()).add(newPlan);
                 updatePlansDisplay();
                 plansTextArea.clear();
@@ -108,34 +128,35 @@ public class WorkPlaceController {
     }
 
     private void updatePlansDisplay() {
-        plansContainer.getChildren().clear();
-        LocalDate selectedDate = datePicker.getValue();
-        if (selectedDate != null) {
-            List<Plan> plansForDate = plans.getOrDefault(selectedDate, new ArrayList<>());
-            plansForDate.sort(Comparator.comparing(Plan::getTime));
-            for (Plan plan : plansForDate) {
-                HBox planCard = createPlanCard(plan);
-                plansContainer.getChildren().add(planCard);
+        // Очищаем все ListView
+        mondayListView.getItems().clear();
+        tuesdayListView.getItems().clear();
+        wednesdayListView.getItems().clear();
+        thursdayListView.getItems().clear();
+        fridayListView.getItems().clear();
+        saturdayListView.getItems().clear();
+        sundayListView.getItems().clear();
+
+        // Получаем текущую дату и определяем начало недели
+        LocalDate currentDate = datePicker.getValue();
+        if (currentDate != null) {
+            LocalDate startOfWeek = currentDate.with(java.time.temporal.ChronoField.DAY_OF_WEEK, 1); // Пн
+            for (int i = 0; i < 7; i++) {
+                LocalDate date = startOfWeek.plusDays(i);
+                List<Plan> plansForDate = plans.getOrDefault(date, new ArrayList<>());
+                for (Plan plan : plansForDate) {
+                    switch (i) {
+                        case 0: mondayListView.getItems().add(plan); break; // Пн
+                        case 1: tuesdayListView.getItems().add(plan); break; // Вт
+                        case 2: wednesdayListView.getItems().add(plan); break; // Ср
+                        case 3: thursdayListView.getItems().add(plan); break; // Чт
+                        case 4: fridayListView.getItems().add(plan); break; // Пт
+                        case 5: saturdayListView.getItems().add(plan); break; // Сб
+                        case 6: sundayListView.getItems().add(plan); break; // Вс
+                    }
+                }
             }
         }
-    }
-
-    private HBox createPlanCard(Plan plan) {
-        HBox planCard = new HBox(10);
-        planCard.setStyle("-fx-padding: 10; -fx-border-color: #ccc; -fx-border-radius: 5; -fx-background-radius: 5;");
-        Circle colorCircle = new Circle(5);
-        colorCircle.setFill(plan.getCategory().getColor());
-        Label planLabel = new Label(plan.toString());
-        planLabel.setWrapText(true);
-
-        Button deleteButton = new Button("Удалить");
-        deleteButton.setOnAction(e -> {
-            plans.get(datePicker.getValue()).remove(plan);
-            updatePlansDisplay();
-        });
-
-        planCard.getChildren().addAll(colorCircle,planLabel, deleteButton);
-        return planCard;
     }
 
     private void showAlert(String title, String message) {
@@ -146,11 +167,5 @@ public class WorkPlaceController {
         alert.showAndWait();
     }
 
-    private void setText()
-    {
-        LocalDate localDate = LocalDate.now();
-        int todayData = localDate.getDayOfMonth();
-        String todayMonth = localDate.getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault());
-        DataLabel.setText(todayData + " " + todayMonth);
-    }
+
 }

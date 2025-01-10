@@ -2,36 +2,20 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane id="Plans" prefHeight="586.0" prefWidth="1244.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.project.WorkPlaceController">
 
-    <VBox alignment="TOP_CENTER" layoutX="888.0" prefHeight="270.0" prefWidth="204.0" spacing="10">
+    <VBox alignment="TOP_CENTER" layoutX="7.0" prefHeight="270.0" prefWidth="200.0" spacing="10">
         <Label alignment="TOP_CENTER" contentDisplay="RIGHT" prefHeight="35.0" prefWidth="274.0" style="-fx-font-size: 2em;" text="Добавить план" /> <!-- Заголовок для формы добавления плана -->
         <DatePicker fx:id="datePicker" nodeOrientation="LEFT_TO_RIGHT" prefHeight="26.0" prefWidth="169.0" /> <!-- Элемент для выбора даты -->
         <TextField fx:id="timeTextField" alignment="TOP_LEFT" prefHeight="26.0" prefWidth="306.0" promptText="Ввести время..." /> <!-- Поле для ввода времени -->
-        <TextArea fx:id="plansTextArea" prefHeight="82.0" prefWidth="264.0" promptText="Ввести план.." /> <!-- Область для ввода текста плана -->
+        <TextArea fx:id="plansTextArea" prefHeight="82.0" prefWidth="198.0" promptText="Ввести план.." /> <!-- Область для ввода текста плана -->
         <Button fx:id="addPlanButton" onAction="#handleAddPlan" text="Добавить план" /> <!-- Кнопка для добавления плана -->
     </VBox>
 
-    <AnchorPane layoutY="2.0" prefHeight="300.0" prefWidth="900.0">
-        <children>
-            <Label fx:id="DataLabel" alignment="CENTER" contentDisplay="TOP" prefHeight="35.0" prefWidth="882.0" style="-fx-background-color: #544854;" />
-            <TableView layoutX="-1.0" layoutY="35.0" prefHeight="500.0" prefWidth="882.0">
-                <columns>
-                    <TableColumn minWidth="126.0" prefWidth="126.0" text="ПН" />
-                    <TableColumn minWidth="126.0" prefWidth="126.0" text="ВТ" />
-                    <TableColumn minWidth="126.0" prefWidth="126.0" text="СР" />
-                    <TableColumn minWidth="126.0" prefWidth="126.0" text="ЧТ" />
-                    <TableColumn minWidth="112.0" prefWidth="126.0" text="ПТ" />
-                    <TableColumn minWidth="112.0" prefWidth="126.0" text="СБ" />
-                    <TableColumn minWidth="112.0" prefWidth="126.0" text="ВС" />
-                </columns>
-            </TableView>
-        </children>
-    </AnchorPane>
-
-    <VBox fx:id="plansContainer" layoutX="888.0" layoutY="349.0" prefHeight="227.0" prefWidth="170.0" />
-    <VBox alignment="TOP_LEFT" layoutX="1058.0" layoutY="239.0" spacing="10">
+    <VBox fx:id="plansContainer" layoutX="888.0" layoutY="293.0" prefHeight="227.0" prefWidth="170.0" />
+    <VBox alignment="TOP_LEFT" layoutX="30.0" layoutY="252.0" spacing="10">
         <children>
             <TextField fx:id="categoryNameField" promptText="Введите название категории" />
             <ColorPicker fx:id="categoryColorPicker" />
@@ -40,4 +24,19 @@
             <ComboBox fx:id="categoryComboBox" promptText="Выберите категорию" />
         </children>
     </VBox>
+      <Label fx:id="dataLabel" alignment="CENTER" contentDisplay="TOP" layoutX="213.0" prefHeight="35.0" prefWidth="1031.0">
+      <font>
+         <Font size="24.0" />
+      </font></Label>
+   <AnchorPane layoutX="207.0" layoutY="35.0" prefHeight="674.0" prefWidth="1335.0">
+      <children>
+         <ListView fx:id="mondayListView" layoutY="49.0" prefHeight="740.0" prefWidth="190.0" />
+         <ListView fx:id="tuesdayListView" layoutX="190.0" layoutY="49.0" prefHeight="740.0" prefWidth="190.0" />
+         <ListView fx:id="wednesdayListView" layoutX="380.0" layoutY="49.0" prefHeight="740.0" prefWidth="190.0" />
+         <ListView fx:id="thursdayListView" layoutX="570.0" layoutY="49.0" prefHeight="740.0" prefWidth="190.0" />
+         <ListView fx:id="fridayListView" layoutX="760.0" layoutY="49.0" prefHeight="740.0" prefWidth="190.0" />
+         <ListView fx:id="saturdayListView" layoutX="950.0" layoutY="49.0" prefHeight="740.0" prefWidth="190.0" />
+         <ListView fx:id="sundayListView" layoutX="1140.0" layoutY="49.0" prefHeight="740.0" prefWidth="190.0" />
+      </children>
+   </AnchorPane>
 </AnchorPane>
