@@ -12,6 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.StringConverter;
 import javafx.event.ActionEvent; // Импортируем ActionEvent
 import java.io.IOException;
@@ -65,27 +66,12 @@ public class WorkPlaceController {
     private List<Category> categories; // Список категорий
     private Map<LocalDate, List<Plan>> plans; // Хранение планов по датам
 
-    @FXML
-    private void Back_onMenu(ActionEvent event) {
-        try {
-            FXMLLoader fxloader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
-            Parent root = fxloader.load();
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-            // Установка размеров окна
-            Screen screen = Screen.getPrimary();
-            stage.setWidth(screen.getVisualBounds().getWidth());
-            stage.setHeight(screen.getVisualBounds().getHeight());
 
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     @FXML
     public void initialize() {
+
         DataBaseManager.initializeDatabase(); // Инициализация базы данных при запуске
         plans = DataBaseManager.loadPlans(); // Загружаем планы
         updatePlansDisplay();
@@ -225,17 +211,31 @@ public class WorkPlaceController {
     public void delete_Base(){
         DataBaseManager.clearDatabase();
     }
-//    @FXML
-//    private void Back_to_MEnu(){
-//        try{
-//            FXMLLoader loader =new FXMLLoader(getClass().getResource("hello-view.fxml"));
-//            Parent root =loader.load();
-//            Stage stage=(Stage) ((Node)) event.getSourse()).getScene().getWindow();
-//
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
+
+
+    @FXML
+    private void Back_to_MEnu(ActionEvent event) {
+        try {
+            // Загружаем тот же FXML файл
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
+            Parent newRoot = loader.load();
+
+            // Получаем текущее окно (Stage)
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Устанавливаем новую сцену
+            stage.setScene(new Scene(newRoot));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
+
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

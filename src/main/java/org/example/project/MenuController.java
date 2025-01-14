@@ -20,6 +20,7 @@ public class MenuController {
     /////////////////////////////////////ТАБЛИЦА С ЗАДАЧАМИ/////////////////////////////////////
     @FXML
     private void ClickWorkPlace() {
+
         loadScene("WorkPlace.fxml");
     }
 
