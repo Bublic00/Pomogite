@@ -1,5 +1,6 @@
 package org.example.project;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -11,7 +12,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.StringConverter;
 import javafx.event.ActionEvent; // Импортируем ActionEvent
 import java.io.IOException;
@@ -22,7 +22,6 @@ import java.time.format.DateTimeParseException;
 import java.time.format.TextStyle;
 import java.time.temporal.ChronoField;
 import java.util.*;
-import javafx.scene.Node; // Импортируем Node
 
 public class WorkPlaceController {
 
@@ -62,30 +61,41 @@ public class WorkPlaceController {
     private HBox Hbox;
     @FXML
     private Label DayOfWeekMonday;
+
     private List<Category> categories; // Список категорий
     private Map<LocalDate, List<Plan>> plans; // Хранение планов по датам
+
     @FXML
-    private void Back_onMenu(ActionEvent event){
+    private void Back_onMenu(ActionEvent event) {
+        try {
+            FXMLLoader fxloader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
+            Parent root = fxloader.load();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-        try{
-            FXMLLoader fxloader=new FXMLLoader(getClass().getResource("hello-view.fxml"));
-            Parent root=fxloader.load();
-            Stage stage=(Stage) ((Node) event.getSource()).getScene().getWindow();
-
+            // Установка размеров окна
             Screen screen = Screen.getPrimary();
             stage.setWidth(screen.getVisualBounds().getWidth());
             stage.setHeight(screen.getVisualBounds().getHeight());
 
             stage.setScene(new Scene(root));
-                stage.show();
-        }catch (IOException e){
+            stage.show();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @FXML
     public void initialize() {
-        setTodayData();
+        DataBaseManager.initializeDatabase(); // Инициализация базы данных при запуске
+        plans = DataBaseManager.loadPlans(); // Загружаем планы
+        updatePlansDisplay();
+        if (plans.isEmpty()) {
+            System.out.println("Нет загруженных планов."); // Отладочное сообщение
+        } else {
+            System.out.println("Планы загружены: " + plans.size());
+        }
+
+        // Настройка комбо-бокса для категорий
         categoryComboBox.setConverter(new StringConverter<Category>() {
             @Override
             public String toString(Category category) {
@@ -97,24 +107,25 @@ public class WorkPlaceController {
                 return null;
             }
         });
+
         categories = new ArrayList<>();
-        plans = new HashMap<>();
         addPlanButton.setOnAction(e -> handleAddPlan());
 
         // Обработчик для изменения даты
         datePicker.setOnAction(e -> updatePlansDisplay());
+
+        // Устанавливаем текст для сегодняшнего дня
+        setTodayData();
     }
 
-    //Установка текста для сегодняшнег дня
-    private void setTodayData()
-    {
-        //Верхушка
+    private void setTodayData() {
+        // Установка текста для сегодняшнего дня
         LocalDate localDate = LocalDate.now();
         int todayData = localDate.getDayOfMonth();
         String todayMonth = localDate.getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault());
         dataLabel.setText(todayData + " " + todayMonth);
 
-        //Даты дней недели
+        // Установка дат дней недели
         LocalDate startOfWeek = localDate.with(ChronoField.DAY_OF_WEEK, 1); // Пн
         for (int i = 0; i < 7; i++) {
             LocalDate date = startOfWeek.plusDays(i);
@@ -123,9 +134,6 @@ public class WorkPlaceController {
             Label l = (Label) Hbox.getChildren().get(i);
             l.setText(formattedDate);
         }
-
-        //Планы на эту неделю
-
     }
 
     @FXML
@@ -193,10 +201,6 @@ public class WorkPlaceController {
             for (int i = 0; i < 7; i++) {
                 LocalDate date = startOfWeek.plusDays(i);
                 List<Plan> plansForDate = plans.getOrDefault(date, new ArrayList<>());
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-                String formattedDate = date.format(formatter);
-                Label l = (Label) Hbox.getChildren().get(i);
-                l.setText(formattedDate);
                 for (Plan plan : plansForDate) {
                     switch (i) {
                         case 0: mondayListView.getItems().add(plan); break; // Пн
@@ -211,6 +215,27 @@ public class WorkPlaceController {
             }
         }
     }
+
+    @FXML
+    public void stop() {
+        DataBaseManager.savePlans(plans); // Сохраняем планы перед закрытием
+        Platform.exit();
+    }
+    @FXML
+    public void delete_Base(){
+        DataBaseManager.clearDatabase();
+    }
+//    @FXML
+//    private void Back_to_MEnu(){
+//        try{
+//            FXMLLoader loader =new FXMLLoader(getClass().getResource("hello-view.fxml"));
+//            Parent root =loader.load();
+//            Stage stage=(Stage) ((Node)) event.getSourse()).getScene().getWindow();
+//
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
