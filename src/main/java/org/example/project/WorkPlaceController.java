@@ -1,6 +1,7 @@
 package org.example.project;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -26,19 +27,19 @@ public class WorkPlaceController {
     @FXML
     private Button addPlanButton;
     @FXML
-    private ListView<Plan> mondayListView; // ListView для понедельника
+    private ListView<CellPlanController> mondayListView; // ListView для понедельника
     @FXML
-    private ListView<Plan> tuesdayListView; // ListView для вторника
+    private ListView<CellPlanController> tuesdayListView; // ListView для вторника
     @FXML
-    private ListView<Plan> wednesdayListView; // ListView для среды
+    private ListView<CellPlanController> wednesdayListView; // ListView для среды
     @FXML
-    private ListView<Plan> thursdayListView; // ListView для четверга
+    private ListView<CellPlanController> thursdayListView; // ListView для четверга
     @FXML
-    private ListView<Plan> fridayListView; // ListView для пятницы
+    private ListView<CellPlanController> fridayListView; // ListView для пятницы
     @FXML
-    private ListView<Plan> saturdayListView; // ListView для субботы
+    private ListView<CellPlanController> saturdayListView; // ListView для субботы
     @FXML
-    private ListView<Plan> sundayListView; // ListView для воскресенья
+    private ListView<CellPlanController> sundayListView; // ListView для воскресенья
     @FXML
     private VBox categoriesContainer; // Контейнер для отображения категорий
     @FXML
@@ -170,18 +171,36 @@ public class WorkPlaceController {
                 Label l = (Label) Hbox.getChildren().get(i);
                 l.setText(formattedDate);
                 for (Plan plan : plansForDate) {
+                    BorderPane borderPane = createPlanBorderPane(plan);
                     switch (i) {
-                        case 0: mondayListView.getItems().add(plan); break; // Пн
-                        case 1: tuesdayListView.getItems().add(plan); break; // Вт
-                        case 2: wednesdayListView.getItems().add(plan); break; // Ср
-                        case 3: thursdayListView.getItems().add(plan); break; // Чт
-                        case 4: fridayListView.getItems().add(plan); break; // Пт
-                        case 5: saturdayListView.getItems().add(plan); break; // Сб
-                        case 6: sundayListView.getItems().add(plan); break; // Вс
+                        case 0: mondayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break; // Пн
+                        case 1: tuesdayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break; // Вт
+                        case 2: wednesdayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break; // Ср
+                        case 3: thursdayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break; // Чт
+                        case 4: fridayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break; // Пт
+                        case 5: saturdayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break; // Сб
+                        case 6: sundayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break; // Вс
                     }
                 }
             }
         }
+    }
+
+    private BorderPane createPlanBorderPane(Plan plan) {
+        BorderPane borderPane = new BorderPane();
+        borderPane.setMinWidth(190);
+        borderPane.setMaxWidth(190);
+        borderPane.setPrefWidth(190);
+
+        // Создайте элементы для отображения информации о плане
+        Label timeLabel = new Label(plan.getTime().toString()); // Предполагается, что у Plan есть метод getTime()
+        timeLabel.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+        Label textLabel = new Label(plan.getText()); // Предполагается, что у Plan есть метод getText()
+
+        // Установите элементы в BorderPane
+        borderPane.setLeft(timeLabel);
+        borderPane.setTop(textLabel);
+        return borderPane;
     }
 
     private void showAlert(String title, String message) {

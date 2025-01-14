@@ -27,7 +27,7 @@ public class Plan {
     }
 
     public String getCategoryName(){
-return  (category!= null)? category.getName():"Без категории";
+return (category!= null)? category.getName():"Без категории";
     }
 
     @Override
