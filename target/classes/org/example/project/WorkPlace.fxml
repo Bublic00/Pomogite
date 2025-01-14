@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="Plans" prefHeight="586.0" prefWidth="1244.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.project.WorkPlaceController">
+<AnchorPane id="Plans" prefHeight="586.0" prefWidth="1244.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.project.WorkPlaceController">
 
     <VBox alignment="TOP_CENTER" layoutX="7.0" prefHeight="270.0" prefWidth="200.0" spacing="10">
         <Label alignment="TOP_CENTER" contentDisplay="RIGHT" prefHeight="35.0" prefWidth="274.0" style="-fx-font-size: 2em;" text="Добавить план" /> <!-- Заголовок для формы добавления плана -->
@@ -57,7 +66,4 @@
             </HBox>
         </children>
     </AnchorPane>
-   <Button fx:id="Ex" layoutX="57.0" layoutY="445.0" mnemonicParsing="false" onAction="#stop" text="Выход" />
-   <Button fx:id="Delete_Base" layoutX="39.0" layoutY="555.0" mnemonicParsing="false" onAction="#delete_Base" text="Очистить базу данных" />
-   <Button fx:id="Back_to_MEnu" onAction="#Back_to_MEnu" layoutX="57.0" layoutY="620.0" mnemonicParsing="false" text="Выход в меню" />
 </AnchorPane>

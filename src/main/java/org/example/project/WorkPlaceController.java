@@ -1,21 +1,13 @@
 package org.example.project;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.StringConverter;
-import javafx.event.ActionEvent; // Импортируем ActionEvent
-import java.io.IOException;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -35,19 +27,19 @@ public class WorkPlaceController {
     @FXML
     private Button addPlanButton;
     @FXML
-    private ListView<Plan> mondayListView; // ListView для понедельника
+    private ListView<CellPlanController> mondayListView; // ListView для понедельника
     @FXML
-    private ListView<Plan> tuesdayListView; // ListView для вторника
+    private ListView<CellPlanController> tuesdayListView; // ListView для вторника
     @FXML
-    private ListView<Plan> wednesdayListView; // ListView для среды
+    private ListView<CellPlanController> wednesdayListView; // ListView для среды
     @FXML
-    private ListView<Plan> thursdayListView; // ListView для четверга
+    private ListView<CellPlanController> thursdayListView; // ListView для четверга
     @FXML
-    private ListView<Plan> fridayListView; // ListView для пятницы
+    private ListView<CellPlanController> fridayListView; // ListView для пятницы
     @FXML
-    private ListView<Plan> saturdayListView; // ListView для субботы
+    private ListView<CellPlanController> saturdayListView; // ListView для субботы
     @FXML
-    private ListView<Plan> sundayListView; // ListView для воскресенья
+    private ListView<CellPlanController> sundayListView; // ListView для воскресенья
     @FXML
     private VBox categoriesContainer; // Контейнер для отображения категорий
     @FXML
@@ -62,26 +54,12 @@ public class WorkPlaceController {
     private HBox Hbox;
     @FXML
     private Label DayOfWeekMonday;
-
     private List<Category> categories; // Список категорий
     private Map<LocalDate, List<Plan>> plans; // Хранение планов по датам
 
-
-
-
     @FXML
     public void initialize() {
-
-        DataBaseManager.initializeDatabase(); // Инициализация базы данных при запуске
-        plans = DataBaseManager.loadPlans(); // Загружаем планы
-        updatePlansDisplay();
-        if (plans.isEmpty()) {
-            System.out.println("Нет загруженных планов."); // Отладочное сообщение
-        } else {
-            System.out.println("Планы загружены: " + plans.size());
-        }
-
-        // Настройка комбо-бокса для категорий
+        setTodayData();
         categoryComboBox.setConverter(new StringConverter<Category>() {
             @Override
             public String toString(Category category) {
@@ -93,25 +71,24 @@ public class WorkPlaceController {
                 return null;
             }
         });
-
         categories = new ArrayList<>();
+        plans = new HashMap<>();
         addPlanButton.setOnAction(e -> handleAddPlan());
 
         // Обработчик для изменения даты
         datePicker.setOnAction(e -> updatePlansDisplay());
-
-        // Устанавливаем текст для сегодняшнего дня
-        setTodayData();
     }
 
-    private void setTodayData() {
-        // Установка текста для сегодняшнего дня
+    //Установка текста для сегодняшнег дня
+    private void setTodayData()
+    {
+        //Верхушка
         LocalDate localDate = LocalDate.now();
         int todayData = localDate.getDayOfMonth();
         String todayMonth = localDate.getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault());
         dataLabel.setText(todayData + " " + todayMonth);
 
-        // Установка дат дней недели
+        //Даты дней недели
         LocalDate startOfWeek = localDate.with(ChronoField.DAY_OF_WEEK, 1); // Пн
         for (int i = 0; i < 7; i++) {
             LocalDate date = startOfWeek.plusDays(i);
@@ -120,8 +97,10 @@ public class WorkPlaceController {
             Label l = (Label) Hbox.getChildren().get(i);
             l.setText(formattedDate);
         }
-    }
 
+        //Планы на эту неделю
+
+    }
     @FXML
     private void addCategory() {
         String name = categoryNameField.getText().trim();
@@ -187,55 +166,42 @@ public class WorkPlaceController {
             for (int i = 0; i < 7; i++) {
                 LocalDate date = startOfWeek.plusDays(i);
                 List<Plan> plansForDate = plans.getOrDefault(date, new ArrayList<>());
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+                String formattedDate = date.format(formatter);
+                Label l = (Label) Hbox.getChildren().get(i);
+                l.setText(formattedDate);
                 for (Plan plan : plansForDate) {
+                    BorderPane borderPane = createPlanBorderPane(plan);
                     switch (i) {
-                        case 0: mondayListView.getItems().add(plan); break; // Пн
-                        case 1: tuesdayListView.getItems().add(plan); break; // Вт
-                        case 2: wednesdayListView.getItems().add(plan); break; // Ср
-                        case 3: thursdayListView.getItems().add(plan); break; // Чт
-                        case 4: fridayListView.getItems().add(plan); break; // Пт
-                        case 5: saturdayListView.getItems().add(plan); break; // Сб
-                        case 6: sundayListView.getItems().add(plan); break; // Вс
+                        case 0: mondayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break; // Пн
+                        case 1: tuesdayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break; // Вт
+                        case 2: wednesdayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break; // Ср
+                        case 3: thursdayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break; // Чт
+                        case 4: fridayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break; // Пт
+                        case 5: saturdayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break; // Сб
+                        case 6: sundayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break; // Вс
                     }
                 }
             }
         }
     }
 
-    @FXML
-    public void stop() {
-        DataBaseManager.savePlans(plans); // Сохраняем планы перед закрытием
-        Platform.exit();
+    private BorderPane createPlanBorderPane(Plan plan) {
+        BorderPane borderPane = new BorderPane();
+        borderPane.setMinWidth(190);
+        borderPane.setMaxWidth(190);
+        borderPane.setPrefWidth(190);
+
+        // Создайте элементы для отображения информации о плане
+        Label timeLabel = new Label(plan.getTime().toString()); // Предполагается, что у Plan есть метод getTime()
+        timeLabel.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+        Label textLabel = new Label(plan.getText()); // Предполагается, что у Plan есть метод getText()
+
+        // Установите элементы в BorderPane
+        borderPane.setLeft(timeLabel);
+        borderPane.setTop(textLabel);
+        return borderPane;
     }
-    @FXML
-    public void delete_Base(){
-        DataBaseManager.clearDatabase();
-    }
-
-
-    @FXML
-    private void Back_to_MEnu(ActionEvent event) {
-        try {
-            // Загружаем тот же FXML файл
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
-            Parent newRoot = loader.load();
-
-            // Получаем текущее окно (Stage)
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            // Устанавливаем новую сцену
-            stage.setScene(new Scene(newRoot));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-
-
-
-
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
