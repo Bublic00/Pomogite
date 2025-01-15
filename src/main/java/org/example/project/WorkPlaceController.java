@@ -171,7 +171,6 @@ public class WorkPlaceController {
                 Label l = (Label) Hbox.getChildren().get(i);
                 l.setText(formattedDate);
                 for (Plan plan : plansForDate) {
-                    BorderPane borderPane = createPlanBorderPane(plan);
                     switch (i) {
                         case 0: mondayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break; // Пн
                         case 1: tuesdayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break; // Вт
@@ -184,23 +183,6 @@ public class WorkPlaceController {
                 }
             }
         }
-    }
-
-    private BorderPane createPlanBorderPane(Plan plan) {
-        BorderPane borderPane = new BorderPane();
-        borderPane.setMinWidth(190);
-        borderPane.setMaxWidth(190);
-        borderPane.setPrefWidth(190);
-
-        // Создайте элементы для отображения информации о плане
-        Label timeLabel = new Label(plan.getTime().toString()); // Предполагается, что у Plan есть метод getTime()
-        timeLabel.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
-        Label textLabel = new Label(plan.getText()); // Предполагается, что у Plan есть метод getText()
-
-        // Установите элементы в BorderPane
-        borderPane.setLeft(timeLabel);
-        borderPane.setTop(textLabel);
-        return borderPane;
     }
 
     private void showAlert(String title, String message) {
