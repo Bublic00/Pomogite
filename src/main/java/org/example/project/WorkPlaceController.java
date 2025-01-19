@@ -56,6 +56,14 @@ public class WorkPlaceController {
 
     @FXML
     public void initialize() {
+
+        setupListViewCellFactory(mondayListView);
+        setupListViewCellFactory(tuesdayListView);
+        setupListViewCellFactory(wednesdayListView);
+        setupListViewCellFactory(thursdayListView);
+        setupListViewCellFactory(fridayListView);
+        setupListViewCellFactory(saturdayListView);
+        setupListViewCellFactory(sundayListView);
         setTodayData();
         categoryComboBox.setConverter(new StringConverter<Category>() {
             @Override
@@ -168,20 +176,34 @@ public class WorkPlaceController {
                 Label l = (Label) Hbox.getChildren().get(i);
                 l.setText(formattedDate);
                 for (Plan plan : plansForDate) {
+                    CellPlanController cell = new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor());
                     switch (i) {
-                        case 0: mondayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break;
-                        case 1: tuesdayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break;
-                        case 2: wednesdayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break;
-                        case 3: thursdayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break;
-                        case 4: fridayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break;
-                        case 5: saturdayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break;
-                        case 6: sundayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break;
+                        case 0: mondayListView.getItems().add(cell); break;
+                        case 1: tuesdayListView.getItems().add(cell); break;
+                        case 2: wednesdayListView.getItems().add(cell); break;
+                        case 3: thursdayListView.getItems().add(cell); break;
+                        case 4: fridayListView.getItems().add(cell); break;
+                        case 5: saturdayListView.getItems().add(cell); break;
+                        case 6: sundayListView.getItems().add(cell); break;
                     }
                 }
             }
         }
     }
 
+    private void setupListViewCellFactory(ListView<CellPlanController> listView) {
+        listView.setCellFactory(param -> new ListCell<CellPlanController>() {
+            @Override
+            protected void updateItem(CellPlanController item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(item);
+                }
+            }
+        });
+    }
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
