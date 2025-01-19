@@ -1,0 +1,9 @@
+.root {
+    -fx-background-color: #333333; /* Темно-серый фон */
+    -fx-text-fill: #ffffff; /* Белый текст */
+}
+
+.button {
+    -fx-background-color: #555555; /* Серый цвет кнопки */
+    -fx-text-fill: white; /* Цвет текста кнопки */
+}

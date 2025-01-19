@@ -1,5 +1,6 @@
 package org.example.project;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
@@ -17,6 +18,7 @@ import java.time.temporal.ChronoField;
 import java.util.*;
 
 public class WorkPlaceController {
+    private Map<LocalDate, List<Plan>> plans;
 
     @FXML
     private DatePicker datePicker;
@@ -53,14 +55,16 @@ public class WorkPlaceController {
     @FXML
     private HBox Hbox;
     private List<Category> categories; // Список категорий
-    private Map<LocalDate, List<Plan>> plans; // Хранение планов по датам
+
 
     @FXML
     public void initialize() {
-        DataBaseManager.initializeDatabase();
-        DataBaseManager.loadPlans();
+        categories=new ArrayList<>();
 
-        setTodayData();
+        DataBaseManager.initializeDatabase();
+        List<Category> categories =DataBaseManager.loadCategories();
+        zapolneniecategorii(categories);
+        categoryComboBox.getItems().addAll(categories);
         categoryComboBox.setConverter(new StringConverter<Category>() {
             @Override
             public String toString(Category category) {
@@ -72,12 +76,23 @@ public class WorkPlaceController {
                 return null;
             }
         });
-        categories = new ArrayList<>();
-        plans = new HashMap<>();
+        plans= DataBaseManager.loadPlans();
+        updatePlansDisplay();
+        setTodayData();
+
+
+
         addPlanButton.setOnAction(e -> handleAddPlan());
 
         // Обработчик для изменения даты
         datePicker.setOnAction(e -> updatePlansDisplay());
+    }
+    private void zapolneniecategorii(List<Category> categories){
+            categoriesContainer.getChildren().clear();
+            for (Category category: categories){
+                createCategoryCard(category);
+            }
+
     }
 
     //Установка текста для сегодняшнег дня
@@ -172,7 +187,7 @@ public class WorkPlaceController {
                 Label l = (Label) Hbox.getChildren().get(i);
                 l.setText(formattedDate);
                 for (Plan plan : plansForDate) {
-                    BorderPane borderPane = createPlanBorderPane(plan);
+
                     switch (i) {
                         case 0: mondayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break; // Пн
                         case 1: tuesdayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break; // Вт
@@ -187,23 +202,18 @@ public class WorkPlaceController {
         }
     }
 
-    private BorderPane createPlanBorderPane(Plan plan) {
-        BorderPane borderPane = new BorderPane();
-        borderPane.setMinWidth(190);
-        borderPane.setMaxWidth(190);
-        borderPane.setPrefWidth(190);
 
-        // Создайте элементы для отображения информации о плане
-        Label timeLabel = new Label(plan.getTime().toString()); // Предполагается, что у Plan есть метод getTime()
-        timeLabel.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
-        Label textLabel = new Label(plan.getText()); // Предполагается, что у Plan есть метод getText()
 
-        // Установите элементы в BorderPane
-        borderPane.setLeft(timeLabel);
-        borderPane.setTop(textLabel);
-        return borderPane;
+    @FXML
+    private void exit(){
+        DataBaseManager.savePlans(plans);
+        Platform.exit();
     }
+    @FXML
+    private void deletebase(){
+        DataBaseManager.clearDatabase();
 
+    }
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
