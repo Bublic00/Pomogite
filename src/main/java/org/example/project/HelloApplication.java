@@ -12,7 +12,6 @@ import java.io.IOException;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        //Размеры и расположение окна (панель задач?)
         stage.initStyle(StageStyle.UNDECORATED);
         Screen screen = Screen.getPrimary();
         stage.setWidth(screen.getVisualBounds().getWidth());

@@ -1,7 +1,6 @@
 package org.example.project;
 
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -27,35 +26,33 @@ public class WorkPlaceController {
     @FXML
     private Button addPlanButton;
     @FXML
-    private ListView<CellPlanController> mondayListView; // ListView для понедельника
+    private ListView<CellPlanController> mondayListView;
     @FXML
-    private ListView<CellPlanController> tuesdayListView; // ListView для вторника
+    private ListView<CellPlanController> tuesdayListView;
     @FXML
-    private ListView<CellPlanController> wednesdayListView; // ListView для среды
+    private ListView<CellPlanController> wednesdayListView;
     @FXML
-    private ListView<CellPlanController> thursdayListView; // ListView для четверга
+    private ListView<CellPlanController> thursdayListView;
     @FXML
-    private ListView<CellPlanController> fridayListView; // ListView для пятницы
+    private ListView<CellPlanController> fridayListView;
     @FXML
-    private ListView<CellPlanController> saturdayListView; // ListView для субботы
+    private ListView<CellPlanController> saturdayListView;
     @FXML
-    private ListView<CellPlanController> sundayListView; // ListView для воскресенья
+    private ListView<CellPlanController> sundayListView;
     @FXML
-    private VBox categoriesContainer; // Контейнер для отображения категорий
+    private VBox categoriesContainer;
     @FXML
-    private TextField categoryNameField; // Поле для ввода названия категории
+    private TextField categoryNameField;
     @FXML
-    private ColorPicker categoryColorPicker; // ColorPicker для выбора цвета категории
+    private ColorPicker categoryColorPicker;
     @FXML
-    private ComboBox<Category> categoryComboBox; // Комбо-бокс для выбора категории
+    private ComboBox<Category> categoryComboBox;
     @FXML
     private Label dataLabel;
     @FXML
     private HBox Hbox;
-    @FXML
-    private Label DayOfWeekMonday;
-    private List<Category> categories; // Список категорий
-    private Map<LocalDate, List<Plan>> plans; // Хранение планов по датам
+    private List<Category> categories;
+    private Map<LocalDate, List<Plan>> plans;
 
     @FXML
     public void initialize() {
@@ -172,13 +169,13 @@ public class WorkPlaceController {
                 l.setText(formattedDate);
                 for (Plan plan : plansForDate) {
                     switch (i) {
-                        case 0: mondayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break; // Пн
-                        case 1: tuesdayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break; // Вт
-                        case 2: wednesdayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break; // Ср
-                        case 3: thursdayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break; // Чт
-                        case 4: fridayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break; // Пт
-                        case 5: saturdayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break; // Сб
-                        case 6: sundayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break; // Вс
+                        case 0: mondayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break;
+                        case 1: tuesdayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break;
+                        case 2: wednesdayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break;
+                        case 3: thursdayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break;
+                        case 4: fridayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break;
+                        case 5: saturdayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break;
+                        case 6: sundayListView.getItems().add(new CellPlanController(plan.getText(), plan.getTime(), plan.getCategory().getColor())); break;
                     }
                 }
             }
