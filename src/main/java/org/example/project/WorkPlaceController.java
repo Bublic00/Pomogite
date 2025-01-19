@@ -148,8 +148,15 @@ public class WorkPlaceController {
         String enteredTime = timeTextField.getText().trim();
         String planText = plansTextArea.getText().trim();
         Category selectedCategory = categoryComboBox.getValue();
+         int lenght =planText.length();
+         if (lenght>=50){
+             showAlert("Ошибка","Не стройте больших планов<3 жизнь и так скоротечна");
+             return;
+         }
 
-        if (selectedDate != null && !enteredTime.isEmpty() && !planText.isEmpty() && selectedCategory != null) {
+
+
+        if (selectedDate != null && !enteredTime.isEmpty() && !planText.isEmpty() && selectedCategory != null ) {
             try {
                 LocalTime time = LocalTime.parse(enteredTime);
                 Plan newPlan = new Plan(time, planText, selectedCategory);

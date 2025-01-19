@@ -20,7 +20,7 @@ public class DataBaseManager {
                     "id INT AUTO_INCREMENT PRIMARY KEY, " +
                     "date DATE NOT NULL, " +
                     "time TIME NOT NULL, " +
-                    "text VARCHAR(255) NOT NULL, " +
+                    "text VARCHAR(50) NOT NULL, " +
                     "category VARCHAR(50) NOT NULL, " +
                     "Color VARCHAR(7) NOT NULL " +
                     "UNIQUE (date, time));"; // Убедитесь, что здесь нет лишних символов
