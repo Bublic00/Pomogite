@@ -1,7 +1,10 @@
 package org.example.project;
+
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -10,18 +13,18 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-//Контроллер для главной менюшки
+// Контроллер для главной менюшки
 public class MenuController {
     private Stage stage;
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
     /////////////////////////////////////ТАБЛИЦА С ЗАДАЧАМИ/////////////////////////////////////
     @FXML
-    private void ClickWorkPlace() {
-
-        loadScene("WorkPlace.fxml");
+    private void ClickWorkPlace(ActionEvent event) {
+        loadScene("WorkPlace.fxml", event);
     }
 
     /////////////////////////////////////ТИПО ОБРАТНАЯ СВЯЗЬ/////////////////////////////////////
@@ -39,28 +42,37 @@ public class MenuController {
 
     /////////////////////////////////////НАСТРОЙКИ/////////////////////////////////////
     @FXML
-    private void openSettings() {
-        loadScene("Settings.fxml");
-    }
+    private void openSettings(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("settings.fxml"));
+            Parent root = loader.load();
 
-    public void loadScene(String fxmlFile) {
-        if (stage != null) {
-            try {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFile));
-                Parent root = fxmlLoader.load();
-
-                Scene newScene = new Scene(root);
-                stage.setScene(newScene);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            System.out.println("Stage is null");
+            // Получаем текущий Stage из источника события
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Настройки");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    /////////////////////////////////////ВЫХОД ИЗ ПРОГРАММЫ(самое сложное)/////////////////////////////////////
+    public void loadScene(String fxmlFile, ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
+            Parent root = loader.load();
+
+            // Получаем текущий Stage из источника события
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Главное меню");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /////////////////////////////////////ВЫХОД ИЗ ПРОГРАММЫ/////////////////////////////////////
     @FXML
     private void ExitButtonClick() {
         Platform.exit();

@@ -84,8 +84,7 @@ public class DataBaseManager {
             // Удалить все записи из таблицы
             stmt.executeUpdate("DELETE FROM plans");
 
-            // Или использовать TRUNCATE
-            // stmt.executeUpdate("TRUNCATE TABLE plans");
+
 
             System.out.println("База данных очищена.");
         } catch (SQLException e) {

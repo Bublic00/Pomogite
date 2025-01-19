@@ -18,10 +18,6 @@ public class HelloApplication extends Application {
         stage.setWidth(screen.getVisualBounds().getWidth());
         stage.setHeight(screen.getVisualBounds().getHeight());
 
-
-
-
-
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
 
         Scene mainMenu = new Scene(fxmlLoader.load());

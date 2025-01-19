@@ -52,13 +52,14 @@ public class WorkPlaceController {
     private Label dataLabel;
     @FXML
     private HBox Hbox;
-    @FXML
-    private Label DayOfWeekMonday;
     private List<Category> categories; // Список категорий
     private Map<LocalDate, List<Plan>> plans; // Хранение планов по датам
 
     @FXML
     public void initialize() {
+        DataBaseManager.initializeDatabase();
+        DataBaseManager.loadPlans();
+
         setTodayData();
         categoryComboBox.setConverter(new StringConverter<Category>() {
             @Override

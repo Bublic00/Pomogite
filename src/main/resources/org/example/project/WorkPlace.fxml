@@ -57,7 +57,5 @@
             </HBox>
         </children>
     </AnchorPane>
-   <Button fx:id="Ex" layoutX="57.0" layoutY="445.0" mnemonicParsing="false" onAction="#stop" text="Выход" />
-   <Button fx:id="Delete_Base" layoutX="39.0" layoutY="555.0" mnemonicParsing="false" onAction="#delete_Base" text="Очистить базу данных" />
-   <Button fx:id="Back_to_MEnu" onAction="#Back_to_MEnu" layoutX="57.0" layoutY="620.0" mnemonicParsing="false" text="Выход в меню" />
+
 </AnchorPane>
